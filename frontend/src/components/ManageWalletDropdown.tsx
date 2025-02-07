@@ -1,10 +1,13 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import Button from "./ui/Button";
 import { useModalOpenContext } from "../contexts/ModalOpenContext";
+import { useBalanceContext } from '../contexts/BalanceContext';
+
 
 const ManageWalletDropdown = () => {
   const { publicKey } = useWallet();
   const connectedWallet = publicKey?.toBase58();
+  const balance = useBalanceContext();
   const {
     setIsManageWalletDropdownVisible,
     setDepositModalVisible,
@@ -42,7 +45,7 @@ const ManageWalletDropdown = () => {
             <div className="flex flex-col gap-4 bg-card-secondary rounded-lg p-3">
               <div className="flex justify-between items-center text-gray-secondary text-base">
                 <p>Balance</p>
-                <p>$ 0.00</p>
+                <p>{balance !== null ? `$ ${balance.toFixed(2)}` : "Loading..."}</p>
               </div>
               <div className="flex gap-2">
                 <Button title="Withdraw" style="dark" onClick={handleWithdraw} />
